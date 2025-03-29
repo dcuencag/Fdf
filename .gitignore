@@ -1,0 +1,15 @@
+# VS Code Dev Container config
+.devcontainer/
+
+# VS Code settings
+.vscode/
+
+# Archivos de sistema
+.DS_Store
+
+# Objetos compilados
+*.o
+*.a
+
+# Ejecutables
+fildefer.a
