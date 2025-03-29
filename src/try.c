@@ -4,9 +4,8 @@ int	main(void)
 {
 	void	*mlx;
 	void	*mlx_win;
-	int 	mlx_put;
-	int	i = 500;
-	int	x = 500;
+	int	i = 400;
+	int	x = 250;
 	int c = 0;
 	int	fd;
 
@@ -17,13 +16,15 @@ int	main(void)
 		c++;
 	}
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	while (i < 1500)
+	mlx_win = mlx_new_window(mlx, 1200, 750, "Hello world!");
+	while (i < 800)
 	{
-		mlx_put = mlx_pixel_put(mlx, mlx_win, i, x, 0x00FFA500);
+		mlx_pixel_put(mlx, mlx_win, i, x, 0x00FFA500);
 		i++;
 		if (i % 10 == 0)
+		{
 			x++;
+		}
 	}
 	mlx_loop(mlx);
 	close(fd);
