@@ -1,21 +1,25 @@
 #include "../fdf.h"
 
-char	**map(char *map)
+int	**maping(int fd)
 {
-	int	fd;
 	char *together;
 	char **splited;
+	int	x;
+	int	y;
+	int	z;
 
-	fd = open(map, O_RDONLY);
-	if (fd < 0)
-	{
-		printf("Error opening file");
-		return (0);
-	}
+	x = 0;
+	y = 0;
+	z = 0;
 	while ((together = get_next_line(fd)))
 	{
 		splited = ft_split(together, ' ');
+		while (splited)
+		{
+			printf("x,y,z = (%d,%d,%d)", x, y, ft_atoi(splited[y]));
+			y++;
+		}
+	x++;
 	}
-	close(fd);
-	return (*splited);
+	return (0);
 }

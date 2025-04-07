@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:36:13 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/03/31 15:34:40 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/04/07 11:48:31 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <math.h>
 
 int		main(void);
-char	**map(char *map);
+int	**maping(int fd);
 
 typedef struct s_point {
 	int	x;
