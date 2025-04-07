@@ -1,14 +1,21 @@
 #include "../fdf.h"
 #include <unistd.h>
 
-int	main(void)
+int	main(int ac, char **av)
 {
-/* 	void	*mlx;
-	void	*mlx_win; */
-	int	fd;
+    if (ac != 2)
+    {
+        printf("Usage: %s <filename>\n", av[0]);
+        return 1;
+    }
 
-	fd = open("1.fdf", O_RDONLY);
-	maping(fd);
+    int fd = open(av[1], O_RDONLY);
+    if (fd < 0)
+    {
+        perror("Error opening file");
+        return 1;
+    }
+    maping(fd);
 /* 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 1200, 750, "Hello world!");
 	while (i < 800)

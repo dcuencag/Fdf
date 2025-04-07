@@ -9,17 +9,19 @@ int	**maping(int fd)
 	int	z;
 
 	x = 0;
-	y = 0;
 	z = 0;
 	while ((together = get_next_line(fd)))
 	{
 		splited = ft_split(together, ' ');
-		while (splited)
+		y = 0;
+		while (splited[y])
 		{
-			printf("x,y,z = (%d,%d,%d)", x, y, ft_atoi(splited[y]));
+			printf("x,y,z = (%d,%d,%d)\n", x, y, ft_atoi(splited[y]));
 			y++;
 		}
-	x++;
+		free(together);
+		free(splited);
+		x++;
 	}
 	return (0);
 }
