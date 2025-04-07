@@ -8,7 +8,7 @@ int	**maping(int fd)
 	void	*mlx_win;
 	int	x;
 	int	y;
-	int p_x;
+	double p_x;
 	int	p_y;
 
 	x = 0;
@@ -22,10 +22,10 @@ int	**maping(int fd)
 		y = 0;
 		while (splited[y])
 		{
-			p_x = ((y * cos(30)) - (x * cos(30)));
-			p_y = ft_atoi(splited[y]) - ((y * sin(30)) - (x * sin(30)));
-			printf("(%d,%d)\n", p_x, p_y);
-			mlx_pixel_put(mlx, mlx_win, p_y, p_x, 0x00FFA500);
+			p_x = ((y * cos(0.5236)) - (x * cos(0.5236)));
+			p_y = ft_atoi(splited[y]) - ((y * sin(0.5236)) - (x * sin(0.5236)));
+			printf("(%f,%d)\n", p_x, p_y);
+			mlx_pixel_put(mlx, mlx_win, p_y + 600, p_x + 375, 0x00FFA500);
 			y++;
 		}
 		free(together);
