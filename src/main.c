@@ -3,9 +3,9 @@
 
 int	main(int ac, char **av)
 {
-    if (ac != 2)
+    if (ac != 3)
     {
-        printf("Usage: %s <filename>\n", av[0]);
+        printf("Usage: %s <filename> <zoom>\n", av[0]);
         return 1;
     }
 
@@ -15,19 +15,6 @@ int	main(int ac, char **av)
         perror("Error opening file");
         return 1;
     }
-    maping(fd);
-/* 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1200, 750, "Hello world!");
-	while (i < 800)
-	{
-		usleep(9999);
-		mlx_pixel_put(mlx, mlx_win, i, x, 0x00FFA500);
-		i++;
-		if (i % 10 == 0)
-		{
-			x++;
-		}
-	}
-	mlx_loop(mlx); */
+    maping(fd, atoi(av[2]));
 	close(fd);
 }
