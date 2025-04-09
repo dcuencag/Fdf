@@ -15,7 +15,7 @@ int	**maping(int fd, int zoom)
 	p_x = 0;
 	p_y = 0;
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 2400, 1500, "Fil de Fer");
+	mlx_win = mlx_new_window(mlx, 3800, 2000, "Fil de Fer");
 	while ((together = get_next_line(fd)))
 	{
 		splited = ft_split(together, ' ');
@@ -26,7 +26,7 @@ int	**maping(int fd, int zoom)
 			p_x = ((y * zoom * cos(0.5236)) + (x * zoom * cos(0.5236)));
 			p_y = (ft_atoi(splited[y]) * (zoom / 2) - ((x * zoom * sin(0.5236)) - (y * zoom * sin(0.5236))));
 			printf("(%f,%f)\n", p_x, p_y);
-			mlx_pixel_put(mlx, mlx_win, p_x + 700, -p_y + 750, 0x00FFA500);
+			mlx_pixel_put(mlx, mlx_win, p_x + 700, -p_y + 950, 0x00FFA500);
 			y++;
 		}
 		free(together);
