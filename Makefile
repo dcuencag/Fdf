@@ -6,13 +6,13 @@
 #    By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:26:17 by dancuenc          #+#    #+#              #
-#    Updated: 2025/03/31 12:08:12 by dancuenc         ###   ########.fr        #
+#    Updated: 2025/04/17 15:36:17 by dancuenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fildefer.a
+NAME = fildefer
 
-SRC = src/main.c src/maping.c
+SRC = src/main.c src/window.c src/maping.c
 OBJ = $(SRC:.c=.o)
 
 CC = cc
