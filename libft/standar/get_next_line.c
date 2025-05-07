@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 12:42:19 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/03/28 16:31:43 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/07 11:51:52 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*ft_strcpy(char *src)
 		i++;
 	}
 	dst[i] = '\0';
-	free(src);
 	return (dst);
 }
 
@@ -41,7 +40,6 @@ char	*read_to_stash(int fd, char *storage)
 {
 	char	*buff;
 	int		bytes_read;
-	char	*tmp;
 
 	bytes_read = 1;
 	if (!storage)
@@ -57,8 +55,7 @@ char	*read_to_stash(int fd, char *storage)
 		if (bytes_read < 0)
 			return (free(buff), free(storage), NULL);
 		buff[bytes_read] = '\0';
-		tmp = ft_strjoin(storage, buff);
-		storage = ft_strcpy(tmp);
+		storage = ft_strjoin(storage, buff);
 	}
 	free(buff);
 	return (storage);
@@ -113,7 +110,9 @@ char	*update_stash(char **stash)
 		return (NULL);
 	if (!ft_strchr(*stash, '\n'))
 	{
-		return (ft_strcpy(*stash));
+		char *line = *stash;
+		*stash = NULL;
+		return (line);
 	}
 	tmp = ft_strchr(*stash, '\n') + 1;
 	if (!tmp)
@@ -137,10 +136,13 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (ft_strchr(stash[fd], '\n'))
 		return (update_stash(&stash[fd]));
-	line = ft_strcpy(stash[fd]);
+	line = stash[fd];
+	stash[fd] = NULL;
 	if (line[0] == '\0')
 	{
 		free(line);
+		free(stash[fd]);
+		stash[fd] = NULL;
 		return (NULL);
 	}
 	stash[fd] = NULL;
