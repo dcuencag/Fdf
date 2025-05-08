@@ -1,19 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   maping.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/08 14:57:58 by dancuenc          #+#    #+#             */
+/*   Updated: 2025/05/08 15:08:59 by dancuenc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../fdf.h"
-
-void	free_split(char **split)
-{
-	int	i;
-
-	if (!split)
-		return;
-	i = 0;
-	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
-	free(split);
-}
 
 void	put_pixel(t_window *win, int x, int y, int color)
 {
@@ -27,41 +24,29 @@ void	put_pixel(t_window *win, int x, int y, int color)
 
 int	**maping(int fd, void *param)
 {
-	char		*together;
-	char		**splited;
-	double		p_x;
-	double		p_y;
-	t_point		point;
-	t_window	*window;
-	int			cols;
-	int			rows;
-	double		model_width;
-	double		model_height;
+	t_window	*win;
+	char		*line;
+	char		**split;
+	char		**prev;
+	int			x;
 
-	window = (t_window *)param;
-	ft_memset(window->addr, 0, window->width * window->height * (window->bits_per_pixel / 8));
-	window->fd = fd;
-	cols = window->cols;
-	rows = window->rows;
-	model_width = (cols + rows) * window->zoom * cos(0.5236);
-	model_height = (cols + rows) * window->zoom * sin(0.5236);
-	window->offset_x = (window->width - model_width) / 2;
-	window->offset_y = (window->height - model_height) / 2;
-	point.x = 0;
-	while ((together = get_next_line(fd)))
+	win = (t_window *)param;
+	ft_memset(win->addr, 0,
+		win->width * win->height * (win->bits_per_pixel / 8));
+	win->fd = fd;
+	prev = NULL;
+	x = 0;
+	line = get_next_line(fd);
+	while (line)
 	{
-		splited = ft_split(together, ' ');
-		point.y = 0;
-		while (splited[point.y])
-		{
-			p_x = ((point.y * window->zoom * cos(0.5236)) + (point.x * window->zoom * cos(0.5236)));
-			p_y = (ft_atoi(splited[point.y]) * (window->zoom / 2) - ((point.x * window->zoom * sin(0.5236)) - (point.y * window->zoom * sin(0.5236))));
-			put_pixel(window, p_x + window->offset_x, -p_y + window->offset_y, 0x00FFA500);
-			point.y++;
-		}
-		free(together);
-		free_split(splited);
-		point.x++;
+		split = ft_split(line, ' ');
+		maping_loop(win, split, prev, x);
+		free_split(prev);
+		prev = split;
+		free(line);
+		x++;
+		line = get_next_line(fd);
 	}
+	free_split(prev);
 	return (0);
 }

@@ -6,13 +6,15 @@
 #    By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/26 13:26:17 by dancuenc          #+#    #+#              #
-#    Updated: 2025/05/06 12:19:35 by dancuenc         ###   ########.fr        #
+#    Updated: 2025/05/08 15:01:11 by dancuenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
-SRC = src/main.c src/window.c src/maping.c
+SRC = src/main.c src/window.c src/maping.c src/zoom.c src/move.c src/utils.c \
+src/parser.c src/bresenham.c src/maping_loop.c src/draw_lines.c
+
 OBJ = $(SRC:.c=.o)
 
 CC = cc

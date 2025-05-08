@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 12:42:19 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/07 11:51:52 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:52:19 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	*update_stash(char **stash)
 	char	*line_read;
 	char	*tmp;
 	char	*ptr;
+	char	*line;
 
 	if (!stash)
 		return (NULL);
@@ -110,7 +111,7 @@ char	*update_stash(char **stash)
 		return (NULL);
 	if (!ft_strchr(*stash, '\n'))
 	{
-		char *line = *stash;
+		line = *stash;
 		*stash = NULL;
 		return (line);
 	}

@@ -1,32 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 13:11:30 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/08 14:52:49 by dancuenc         ###   ########.fr       */
+/*   Created: 2025/05/08 14:04:18 by dancuenc          #+#    #+#             */
+/*   Updated: 2025/05/08 15:32:47 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
-#include <unistd.h>
 
-int	main(int ac, char **av)
+void	free_split(char **split)
 {
-	int	width;
-	int	height;
-	int	zoom;
+	int	i;
 
-	if (ac != 5)
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
 	{
-		ft_putstr_fd("Usage: ./fdf width height map_path zoom\n", 2);
-		return (1);
+		free(split[i]);
+		i++;
 	}
-	width = ft_atoi(av[1]);
-	height = ft_atoi(av[2]);
-	zoom = ft_atoi(av[4]);
-	create_window(width, height, av[3], zoom);
-	return (0);
+	free(split);
+}
+
+void	cleanup_and_exit(t_window *win)
+{
+	if (win->img)
+		mlx_destroy_image(win->mlx, win->img);
+	if (win->win)
+		mlx_destroy_window(win->mlx, win->win);
+	if (win->mlx)
+	{
+		mlx_destroy_display(win->mlx);
+		free(win->mlx);
+	}
+	free(win);
+	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 18:09:48 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/02/04 18:19:48 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:51:39 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strdup(const char *s)
 	while (s[i] != '\0')
 	{
 		ptr[i] = s[i];
-		i++; 
+		i++;
 	}
 	ptr[i] = '\0';
 	return (ptr);

@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 13:11:30 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/08 14:52:49 by dancuenc         ###   ########.fr       */
+/*   Created: 2025/05/08 14:09:03 by dancuenc          #+#    #+#             */
+/*   Updated: 2025/05/08 15:27:49 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
-#include <unistd.h>
 
-int	main(int ac, char **av)
+void	detect_map_dimensions(t_window *win)
 {
-	int	width;
-	int	height;
-	int	zoom;
+	char	*line;
+	char	**split;
 
-	if (ac != 5)
+	line = get_next_line(win->fd);
+	while (line)
 	{
-		ft_putstr_fd("Usage: ./fdf width height map_path zoom\n", 2);
-		return (1);
+		win->rows++;
+		if (win->rows == 1)
+		{
+			split = ft_split(line, ' ');
+			while (split[win->cols])
+				win->cols++;
+			free_split(split);
+		}
+		free(line);
+		line = get_next_line(win->fd);
 	}
-	width = ft_atoi(av[1]);
-	height = ft_atoi(av[2]);
-	zoom = ft_atoi(av[4]);
-	create_window(width, height, av[3], zoom);
-	return (0);
+	close(win->fd);
+	win->fd = open(win->map_path, O_RDONLY);
+	if (win->fd < 0)
+	{
+		perror("Error reopening map");
+		exit(1);
+	}
 }
