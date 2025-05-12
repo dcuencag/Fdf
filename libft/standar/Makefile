@@ -6,7 +6,7 @@
 #    By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/15 12:14:21 by dancuenc          #+#    #+#              #
-#    Updated: 2025/03/28 16:30:21 by dancuenc         ###   ########.fr        #
+#    Updated: 2025/05/12 12:54:13 by dancuenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SRC = ft_isalpha.c \
       ft_lstiter.c \
       ft_lstmap.c \
       get_next_line.c \
+      ft_atoi_base.c \
 
 OBJ = $(SRC:.c=.o)
 

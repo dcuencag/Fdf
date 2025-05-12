@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:18:56 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/08 15:20:22 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:44:50 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,10 @@ static void	init_window_graphics(t_window *win)
 			&win->bits_per_pixel, &win->line_length, &win->endian);
 }
 
-void	center_model(t_window *win)
-{
-	double	model_width;
-	double	model_height;
-
-	model_width = (win->cols + win->rows) * win->zoom * cos(0.5236);
-	model_height = (win->cols + win->rows) * win->zoom * sin(0.5236);
-	win->off_x = (win->width - model_width) / 2;
-	win->off_y = (win->height - model_height) / 2;
-}
-
 int	my_key_handler(int keycode, void *param)
 {
 	t_window	*window;
-
-	printf("Keycode: %d\n", keycode);
+	
 	window = (t_window *)param;
 	if (keycode == 65307)
 		cleanup_and_exit(window);
@@ -69,6 +57,14 @@ int	my_key_handler(int keycode, void *param)
 		move_left(window);
 	else if (keycode == 65363)
 		move_right(window);
+	else if (keycode == 119)
+		rotate_up(window);
+	else if (keycode == 115)
+		rotate_down(window);
+	else if (keycode == 97)
+		rotate_left(window);
+	else if (keycode == 100)
+		rotate_right(window);
 	return (0);
 }
 

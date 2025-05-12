@@ -1,69 +1,89 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   move.c                                             :+:      :+:    :+:   */
+/*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 12:40:49 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/12 13:11:12 by dancuenc         ###   ########.fr       */
+/*   Created: 2025/05/12 13:27:16 by dancuenc          #+#    #+#             */
+/*   Updated: 2025/05/12 13:33:17 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fdf.h"
 
-void	move_up(void *param)
+void	rotate_up(void *param)
 {
 	t_window	*win;
 
 	win = (t_window *)param;
-	win->off_y -= 25;
+	win->rot_x -= 0.05;
+	ft_memset(win->addr, 0,
+		win->width * win->height * (win->bits_per_pixel / 8));
 	close(win->fd);
 	win->fd = open(win->map_path, O_RDONLY);
 	if (win->fd < 0)
-		cleanup_and_exit(win);
+	{
+		perror("Error reopening map file");
+		exit(1);
+	}
 	maping(win->fd, win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
 }
 
-void	move_down(void *param)
+void	rotate_down(void *param)
 {
 	t_window	*win;
 
 	win = (t_window *)param;
-	win->off_y += 25;
+	win->rot_x += 0.05;
+	ft_memset(win->addr, 0,
+		win->width * win->height * (win->bits_per_pixel / 8));
 	close(win->fd);
 	win->fd = open(win->map_path, O_RDONLY);
 	if (win->fd < 0)
-		cleanup_and_exit(win);
+	{
+		perror("Error reopening map file");
+		exit(1);
+	}
 	maping(win->fd, win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
 }
 
-void	move_right(void *param)
+void	rotate_left(void *param)
 {
 	t_window	*win;
 
 	win = (t_window *)param;
-	win->off_x += 25;
+	win->rot_y -= 0.05;
+	ft_memset(win->addr, 0,
+		win->width * win->height * (win->bits_per_pixel / 8));
 	close(win->fd);
 	win->fd = open(win->map_path, O_RDONLY);
 	if (win->fd < 0)
-		cleanup_and_exit(win);
+	{
+		perror("Error reopening map file");
+		exit(1);
+	}
 	maping(win->fd, win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
 }
 
-void	move_left(void *param)
+void	rotate_right(void *param)
 {
 	t_window	*win;
 
 	win = (t_window *)param;
-	win->off_x -= 25;
+	win->rot_y += 0.05;
+	ft_memset(win->addr, 0,
+		win->width * win->height * (win->bits_per_pixel / 8));
 	close(win->fd);
 	win->fd = open(win->map_path, O_RDONLY);
 	if (win->fd < 0)
-		cleanup_and_exit(win);
+	{
+		perror("Error reopening map file");
+		exit(1);
+	}
 	maping(win->fd, win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
 }

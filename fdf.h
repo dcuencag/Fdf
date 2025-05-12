@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:36:13 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/08 15:49:52 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:30:46 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 typedef struct s_point
 {
 	int	x;
-	int	y;	
+	int	y;
+	int	z;
+	int	color;
 }	t_point;
 
 typedef struct s_projected
@@ -43,9 +45,10 @@ typedef struct s_draw_data
 	int				x;
 	int				y;
 	t_projected		p0;
+	int				color;
 }	t_draw_data;
 
-typedef struct s_bresenham
+typedef struct s_bres
 {
 	int	dx;
 	int	dy;
@@ -53,7 +56,7 @@ typedef struct s_bresenham
 	int	sy;
 	int	err;
 	int	e2;
-}	t_bresenham;
+}	t_bres;
 
 typedef struct s_window
 {
@@ -72,6 +75,8 @@ typedef struct s_window
 	int		off_y;
 	int		cols;
 	int		rows;
+	double	rot_x;
+	double	rot_y;
 	char	*map_path;
 }	t_window;
 
@@ -90,23 +95,28 @@ typedef struct s_map
 	int	height;
 }	t_map;
 
-int		main(int ac, char **av);
-int		**create_window(int width, int height, char *map_path, int zoom);
-int		**maping(int fd, void *param);
-void	cleanup_and_exit(t_window *win);
-void	zoom_plus(void *param);
-void	zoom_less(void *param);
-void	move_up(void *param);
-void	move_down(void *param);
-void	move_left(void *param);
-void	move_right(void *param);
-void	free_split(char **split);
-void	detect_map_dimensions(t_window *win);
-void	center_model(t_window *win);
-void	put_pixel(t_window *win, int x, int y, int color);
-void	maping_loop(t_window *win, char **split, char **prev, int x);
-void	draw_horizontal_line(t_window *win, char **split, t_draw_data d);
-void	draw_vertical_line(t_window *win, char **prev, t_draw_data d);
-void	paint_line(t_window *win, t_line line);
+int			main(int ac, char **av);
+int			**create_window(int width, int height, char *map_path, int zoom);
+int			**maping(int fd, void *param);
+void		cleanup_and_exit(t_window *win);
+void		zoom_plus(void *param);
+void		zoom_less(void *param);
+void		move_up(void *param);
+void		move_down(void *param);
+void		move_left(void *param);
+void		move_right(void *param);
+void		rotate_up(void *param);
+void		rotate_down(void *param);
+void		rotate_left(void *param);
+void		rotate_right(void *param);
+void		free_split(char **split);
+void		detect_map_dimensions(t_window *win);
+void		center_model(t_window *win);
+void		put_pixel(t_window *win, int x, int y, int color);
+void		maping_loop(t_window *win, char **split, char **prev, int x);
+void		draw_horizontal_line(t_window *win, char **split, t_draw_data d);
+void		draw_vertical_line(t_window *win, char **prev, t_draw_data d);
+void		paint_line(t_window *win, t_line line, t_draw_data d);
+int			get_color(int z);
 
 #endif
