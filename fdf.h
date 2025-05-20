@@ -77,7 +77,9 @@ typedef struct s_window
 	int		rows;
 	double	rot_x;
 	double	rot_y;
+	double	rot_z;
 	char	*map_path;
+	double	z_scale;
 }	t_window;
 
 typedef struct s_window_params
@@ -95,8 +97,16 @@ typedef struct s_map
 	int	height;
 }	t_map;
 
+typedef struct s_fpoint
+{
+	double	x;
+	double	y;
+	double	z;
+	int		color;
+}	t_fpoint;
+
 int			main(int ac, char **av);
-int			**create_window(int width, int height, char *map_path, int zoom);
+t_window	*create_window(int width, int height, char *map_path, int zoom);
 int			**maping(int fd, void *param);
 void		cleanup_and_exit(t_window *win);
 void		zoom_plus(void *param);
@@ -109,6 +119,8 @@ void		rotate_up(void *param);
 void		rotate_down(void *param);
 void		rotate_left(void *param);
 void		rotate_right(void *param);
+void		rotate_z_left(void *param);
+void		rotate_z_right(void *param);
 void		free_split(char **split);
 void		detect_map_dimensions(t_window *win);
 void		center_model(t_window *win);
@@ -118,5 +130,8 @@ void		draw_horizontal_line(t_window *win, char **split, t_draw_data d);
 void		draw_vertical_line(t_window *win, char **prev, t_draw_data d);
 void		paint_line(t_window *win, t_line line, t_draw_data d);
 int			get_color(int z);
+t_point		parse_point(int x, int y, char *str);
+t_projected	project_point(t_point p, t_window *win);
+void		detect_map_dimensions(t_window *win);
 
 #endif

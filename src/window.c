@@ -25,8 +25,9 @@ static void	init_window_struct(t_window *win, t_window_params p)
 	win->width = p.width;
 	win->height = p.height;
 	win->zoom = p.zoom;
-	detect_map_dimensions(win);
-	center_model(win);
+/* 	detect_map_dimensions(win);
+	win->off_x = (win->width / 2) - (win->cols * win->zoom / 2);
+	win->off_y = (win->height / 2) - (win->rows * win->zoom / 2); */
 }
 
 static void	init_window_graphics(t_window *win)
@@ -42,6 +43,7 @@ int	my_key_handler(int keycode, void *param)
 {
 	t_window	*window;
 	
+	printf("keycode: %d\n", keycode);
 	window = (t_window *)param;
 	if (keycode == 65307)
 		cleanup_and_exit(window);
@@ -65,10 +67,14 @@ int	my_key_handler(int keycode, void *param)
 		rotate_left(window);
 	else if (keycode == 100)
 		rotate_right(window);
+	else if (keycode == 101)
+		rotate_z_left(param);
+	else if (keycode == 113)
+		rotate_z_right(param);
 	return (0);
 }
 
-int	**create_window(int width, int height, char *map_path, int zoom)
+t_window	*create_window(int width, int height, char *map_path, int zoom)
 {
 	t_window			*win;
 	t_window_params		params;
@@ -76,7 +82,6 @@ int	**create_window(int width, int height, char *map_path, int zoom)
 	win = malloc(sizeof(t_window));
 	if (!win)
 		return (NULL);
-	ft_memset(win, 0, sizeof(t_window));
 	params.width = width;
 	params.height = height;
 	params.zoom = zoom;
@@ -84,6 +89,7 @@ int	**create_window(int width, int height, char *map_path, int zoom)
 	init_window_struct(win, params);
 	init_window_graphics(win);
 	maping(win->fd, win);
+	detect_map_dimensions(win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
 	mlx_key_hook(win->win, my_key_handler, win);
 	mlx_loop(win->mlx);

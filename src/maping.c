@@ -22,37 +22,48 @@ void	put_pixel(t_window *win, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-t_point	parse_point(int x, int y, char *str)
+t_projected	project_point(t_point p, t_window *win)
 {
-	t_point		point;
-	char		**parts;
+	double			rx;
+	double			ry;
+	double			rz;
+	double			tmp;
+	t_projected		proj;
+	double			px;
+	double			py;
 
-	point.x = x;
-	point.y = y;
-	parts = ft_split(str, ',');
-	point.z = ft_atoi(parts[0]);
-	if (parts[1])
-		point.color = ft_atoi_base(parts[1], 16);
-	else
-		point.color = get_color(point.z);
-	free_split(parts);
-	return (point);
+	rx = (double)p.x;
+	ry = (double)p.y;
+	rz = (double)p.z;
+	rz *= win->z_scale;
+//	printf("Z: %d -> rz: %f\n", p.z, rz);
+	tmp = ry * cos(win->rot_x) - rz * sin(win->rot_x);
+	rz = ry * sin(win->rot_x) + rz * cos(win->rot_x);
+	ry = tmp;
+	tmp = rx * cos(win->rot_y) + rz * sin(win->rot_y);
+	rz = -rx * sin(win->rot_y) + rz * cos(win->rot_y);
+	rx = tmp;
+	tmp = rx * cos(win->rot_z) - ry * sin(win->rot_z);
+	ry = rx * sin(win->rot_z) + ry * cos(win->rot_z);
+	rx = tmp;
+	px = (rx - ry) * cos(0.5236);
+	py = (rx + ry) * sin(0.5236) - rz;
+	proj.p_x = px * win->zoom + win->off_x;
+	proj.p_y = py * win->zoom + win->off_y;
+	return (proj);
 }
 
-static t_draw_data	draw_point(t_window *win, int x, int y, char *str)
+static t_draw_data	
+draw_point(t_window *win, int x, int y, char *str)
 {
 	t_point			point;
 	t_projected		p0;
 	t_draw_data		data;
-	double			px;
-	double			py;
 
 	point = parse_point(x, y, str);
-	px = (y * win->zoom * cos(win->rot_y)) + (x * win->zoom * cos(win->rot_x));
-	py = point.z * (win->zoom / 2)
-		- ((x * win->zoom * sin(win->rot_x)) - (y * win->zoom * sin(win->rot_y)));
-	p0.p_x = px + win->off_x;
-	p0.p_y = -py + win->off_y;
+	if (win->z_scale == 0.0)
+		win->z_scale = 1.0;
+	p0 = project_point(point, win);
 	put_pixel(win, p0.p_x, p0.p_y, point.color);
 	data.x = x;
 	data.y = y;
@@ -64,45 +75,35 @@ static t_draw_data	draw_point(t_window *win, int x, int y, char *str)
 void	maping_loop(t_window *win, char **split, char **prev, int x)
 {
 	int				y;
-	double			px;
-	double			py;
-	t_projected		p0;
 	t_draw_data		data;
 
 	y = 0;
 	while (split[y])
 	{
 		data = draw_point(win, x, y, split[y]);
-		px = (y * win->zoom * cos(0.5236))
-			+ (x * win->zoom * cos(0.5236));
-		py = ft_atoi(split[y]) * (win->zoom / 2)
-			- ((x * win->zoom * sin(0.5236))
-				- (y * win->zoom * sin(0.5236)));
-		p0.p_x = px + win->off_x;
-		p0.p_y = -py + win->off_y;
-		data.x = x;
-		data.y = y;
-		data.p0 = p0;
 		draw_horizontal_line(win, split, data);
 		draw_vertical_line(win, prev, data);
 		y++;
 	}
 }
 
-int	**maping(int fd, void *param)
+int	**maping(int fd_unused, void *param)
 {
 	t_window	*win;
 	char		*line;
 	char		**split;
 	char		**prev;
 	int			x;
+	int			fd;
 
+	(void)fd_unused;
 	win = (t_window *)param;
 	ft_memset(win->addr, 0,
 		win->width * win->height * (win->bits_per_pixel / 8));
+	fd = open(win->map_path, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
 	win->fd = fd;
-	win->rot_x = 0.5236;
-	win->rot_y = 0.5236;
 	prev = NULL;
 	x = 0;
 	line = get_next_line(fd);
@@ -117,5 +118,6 @@ int	**maping(int fd, void *param)
 		line = get_next_line(fd);
 	}
 	free_split(prev);
-	return (0);
+	close(fd);
+	return (NULL);
 }

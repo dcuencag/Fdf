@@ -27,30 +27,26 @@ void	center_model(t_window *win)
 	win->off_y = (win->height / 2) - ((y0 + y1) / 2);
 }
 
-void	detect_map_dimensions(t_window *win)
+t_point	parse_point(int x, int y, char *str)
 {
-	char	*line;
-	char	**split;
+	t_point		point;
+	char		**parts;
 
-	line = get_next_line(win->fd);
-	while (line)
-	{
-		win->rows++;
-		if (win->rows == 1)
-		{
-			split = ft_split(line, ' ');
-			while (split[win->cols])
-				win->cols++;
-			free_split(split);
-		}
-		free(line);
-		line = get_next_line(win->fd);
-	}
-	close(win->fd);
-	win->fd = open(win->map_path, O_RDONLY);
-	if (win->fd < 0)
-	{
-		perror("Error reopening map");
-		exit(1);
-	}
+	point.x = y;
+	point.y = x;
+	point.z = 0;
+	point.color = 0xFFFFFF;
+
+	if (!str)
+		return (point);
+
+	parts = ft_split(str, ',');
+	if (parts && parts[0] && *parts[0])
+		point.z = ft_atoi(parts[0]);
+	if (parts && parts[1])
+		point.color = ft_atoi_base(parts[1], 16);
+	else
+		point.color = get_color(point.z);
+	free_split(parts);
+	return (point);
 }

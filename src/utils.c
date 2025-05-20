@@ -27,6 +27,43 @@ void	free_split(char **split)
 	free(split);
 }
 
+static int	count_columns(char *line)
+{
+	int		count;
+	char	**split;
+
+	count = 0;
+	split = ft_split(line, ' ');
+	while (split[count])
+		count++;
+	free_split(split);
+	return (count);
+}
+
+void	detect_map_dimensions(t_window *win)
+{
+	int		fd;
+	int		rows;
+	int		cols;
+	char	*line;
+
+	rows = 0;
+	cols = 0;
+	fd = open(win->map_path, O_RDONLY);
+	if (fd < 0)
+		return ;
+	while ((line = get_next_line(fd)))
+	{
+		if (rows == 0)
+			cols = count_columns(line);
+		free(line);
+		rows++;
+	}
+	close(fd);
+	win->rows = rows;
+	win->cols = cols;
+}
+
 void	cleanup_and_exit(t_window *win)
 {
 	if (win->img)
