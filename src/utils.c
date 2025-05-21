@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:04:18 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/08 15:32:47 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:13:31 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ void	detect_map_dimensions(t_window *win)
 	fd = open(win->map_path, O_RDONLY);
 	if (fd < 0)
 		return ;
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		if (rows == 0)
 			cols = count_columns(line);
 		free(line);
 		rows++;
+		line = get_next_line(fd);
 	}
 	close(fd);
 	win->rows = rows;

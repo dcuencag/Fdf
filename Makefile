@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/26 13:26:17 by dancuenc          #+#    #+#              #
-#    Updated: 2025/05/12 13:31:14 by dancuenc         ###   ########.fr        #
+#    Created: 2025/05/21 15:24:16 by dancuenc          #+#    #+#              #
+#    Updated: 2025/05/21 15:24:17 by dancuenc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME = fdf
 
 SRC = src/main.c src/window.c src/maping.c src/zoom.c src/move.c src/utils.c \
 src/parser.c src/bresenham.c src/draw_lines.c src/colors.c src/rotatex.c \
-src/rotatey.c src/rotatez.c src/projection.c src/menu.c src/reset.c
+src/rotatey.c src/rotatez.c src/projection.c src/menu.c src/reset.c \
+src/interaction.c
 
 OBJ = $(SRC:.c=.o)
 

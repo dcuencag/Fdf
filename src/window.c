@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:18:56 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/12 13:44:50 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:19:19 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	init_window_struct(t_window *win, t_window_params p)
 	win->width = p.width;
 	win->height = p.height;
 	win->zoom = p.zoom;
- 	detect_map_dimensions(win);
+	detect_map_dimensions(win);
 	win->off_x = (win->width / 2) - (win->cols * win->zoom / 2);
 	win->off_y = (win->height / 2) - (win->rows * win->zoom / 2);
 }
@@ -41,42 +41,16 @@ static void	init_window_graphics(t_window *win)
 
 int	my_key_handler(int keycode, void *param)
 {
-	t_window	*window;
-	
+	t_window	*win;
+
 	printf("keycode: %d\n", keycode);
-	window = (t_window *)param;
-	if (keycode == 65307)
-		cleanup_and_exit(window);
-	else if (keycode == 105)
-		set_projection(window, PROJ_ISO);
-	else if (keycode == 112)
-		set_projection(window, PROJ_PARALLEL);
-	else if (keycode == 43)
-		zoom_plus(window);
-	else if (keycode == 45)
-		zoom_less(window);
-	else if (keycode == 65362)
-		move_up(window);
-	else if (keycode == 65364)
-		move_down(window);
-	else if (keycode == 65361)
-		move_left(window);
-	else if (keycode == 65363)
-		move_right(window);
-	else if (keycode == 119)
-		rotate_up(window);
-	else if (keycode == 115)
-		rotate_down(window);
-	else if (keycode == 97)
-		rotate_left(window);
-	else if (keycode == 100)
-		rotate_right(window);
-	else if (keycode == 101)
-		rotate_z_left(param);
-	else if (keycode == 113)
-		rotate_z_right(param);
-	else if (keycode == 114)
-		reset_view(window);
+	win = (t_window *)param;
+	if (handle_projection_keys(keycode, win))
+		return (0);
+	if (handle_zoom_move_keys(keycode, win))
+		return (0);
+	if (handle_rotation_keys(keycode, param))
+		return (0);
 	return (0);
 }
 
@@ -99,7 +73,7 @@ t_window	*create_window(int width, int height, char *map_path, int zoom)
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
 	draw_menu(win);
 	mlx_key_hook(win->win, my_key_handler, win);
-	mlx_hook(win->win, 17, 0, cleanup_and_exit,win);
+	mlx_hook(win->win, 17, 0, cleanup_and_exit, win);
 	mlx_loop(win->mlx);
 	free(win);
 	return (0);

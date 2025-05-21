@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:36:13 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/12 13:30:46 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:23:59 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_window
 	int		zoom;
 	int		width;
 	int		height;
-	t_proj 	projection;
+	t_proj	projection;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -145,5 +145,8 @@ t_projected	project_parallel(t_point p, t_window *win);
 void		set_projection(void *param, t_proj mode);
 void		draw_menu(t_window *win);
 void		reset_view(void *param);
+int			handle_projection_keys(int keycode, t_window *win);
+int			handle_zoom_move_keys(int keycode, t_window *win);
+int			handle_rotation_keys(int keycode, void *param);
 
 #endif

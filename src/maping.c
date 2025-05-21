@@ -6,7 +6,7 @@
 /*   By: dancuenc <dancuenc@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:57:58 by dancuenc          #+#    #+#             */
-/*   Updated: 2025/05/12 13:23:31 by dancuenc         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:02:18 by dancuenc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	put_pixel(t_window *win, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-static t_draw_data	
-draw_point(t_window *win, int x, int y, char *str)
+static	t_draw_data	draw_point(t_window *win, int x, int y, char *str)
 {
 	t_point			point;
 	t_projected		p0;
@@ -41,7 +40,7 @@ draw_point(t_window *win, int x, int y, char *str)
 	return (data);
 }
 
-void	maping_loop(t_window *win, char **split, char **prev, int x)
+void	maping_loop_2(t_window *win, char **split, char **prev, int x)
 {
 	int				y;
 	t_draw_data		data;
@@ -56,13 +55,32 @@ void	maping_loop(t_window *win, char **split, char **prev, int x)
 	}
 }
 
+static	void	maping_loop_1(t_window *win, int fd)
+{
+	char	*line;
+	char	**split;
+	char	**prev;
+	int		x;
+
+	prev = NULL;
+	x = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		split = ft_split(line, ' ');
+		maping_loop_2(win, split, prev, x);
+		free_split(prev);
+		prev = split;
+		free(line);
+		x++;
+		line = get_next_line(fd);
+	}
+	free_split(prev);
+}
+
 int	**maping(int fd_unused, void *param)
 {
 	t_window	*win;
-	char		*line;
-	char		**split;
-	char		**prev;
-	int			x;
 	int			fd;
 
 	(void)fd_unused;
@@ -73,20 +91,7 @@ int	**maping(int fd_unused, void *param)
 	if (fd < 0)
 		return (NULL);
 	win->fd = fd;
-	prev = NULL;
-	x = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		split = ft_split(line, ' ');
-		maping_loop(win, split, prev, x);
-		free_split(prev);
-		prev = split;
-		free(line);
-		x++;
-		line = get_next_line(fd);
-	}
-	free_split(prev);
+	maping_loop_1(win, fd);
 	close(fd);
 	return (NULL);
 }
