@@ -64,8 +64,11 @@ void	detect_map_dimensions(t_window *win)
 	win->cols = cols;
 }
 
-void	cleanup_and_exit(t_window *win)
+int	cleanup_and_exit(void *param)
 {
+	t_window	*win;
+
+	win = (t_window *)param;
 	if (win->img)
 		mlx_destroy_image(win->mlx, win->img);
 	if (win->win)
@@ -77,4 +80,5 @@ void	cleanup_and_exit(t_window *win)
 	}
 	free(win);
 	exit(0);
+	return (0);
 }

@@ -13,7 +13,8 @@
 NAME = fdf
 
 SRC = src/main.c src/window.c src/maping.c src/zoom.c src/move.c src/utils.c \
-src/parser.c src/bresenham.c src/draw_lines.c src/colors.c src/rotate.c
+src/parser.c src/bresenham.c src/draw_lines.c src/colors.c src/rotatex.c \
+src/rotatey.c src/rotatez.c src/projection.c src/menu.c src/reset.c
 
 OBJ = $(SRC:.c=.o)
 

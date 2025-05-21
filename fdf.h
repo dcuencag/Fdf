@@ -18,6 +18,12 @@
 # include "libft/standar/get_next_line.h"
 # include <math.h>
 
+typedef enum e_proj
+{
+	PROJ_ISO,
+	PROJ_PARALLEL
+}	t_proj;
+
 typedef struct s_point
 {
 	int	x;
@@ -67,6 +73,7 @@ typedef struct s_window
 	int		zoom;
 	int		width;
 	int		height;
+	t_proj 	projection;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -108,7 +115,7 @@ typedef struct s_fpoint
 int			main(int ac, char **av);
 t_window	*create_window(int width, int height, char *map_path, int zoom);
 int			**maping(int fd, void *param);
-void		cleanup_and_exit(t_window *win);
+int			cleanup_and_exit(void *param);
 void		zoom_plus(void *param);
 void		zoom_less(void *param);
 void		move_up(void *param);
@@ -131,7 +138,12 @@ void		draw_vertical_line(t_window *win, char **prev, t_draw_data d);
 void		paint_line(t_window *win, t_line line, t_draw_data d);
 int			get_color(int z);
 t_point		parse_point(int x, int y, char *str);
-t_projected	project_point(t_point p, t_window *win);
 void		detect_map_dimensions(t_window *win);
+t_projected	project_point(t_point p, t_window *win);
+t_projected	project_iso(t_point p, t_window *win);
+t_projected	project_parallel(t_point p, t_window *win);
+void		set_projection(void *param, t_proj mode);
+void		draw_menu(t_window *win);
+void		reset_view(void *param);
 
 #endif

@@ -25,9 +25,9 @@ static void	init_window_struct(t_window *win, t_window_params p)
 	win->width = p.width;
 	win->height = p.height;
 	win->zoom = p.zoom;
-/* 	detect_map_dimensions(win);
+ 	detect_map_dimensions(win);
 	win->off_x = (win->width / 2) - (win->cols * win->zoom / 2);
-	win->off_y = (win->height / 2) - (win->rows * win->zoom / 2); */
+	win->off_y = (win->height / 2) - (win->rows * win->zoom / 2);
 }
 
 static void	init_window_graphics(t_window *win)
@@ -47,6 +47,10 @@ int	my_key_handler(int keycode, void *param)
 	window = (t_window *)param;
 	if (keycode == 65307)
 		cleanup_and_exit(window);
+	else if (keycode == 105)
+		set_projection(window, PROJ_ISO);
+	else if (keycode == 112)
+		set_projection(window, PROJ_PARALLEL);
 	else if (keycode == 43)
 		zoom_plus(window);
 	else if (keycode == 45)
@@ -71,6 +75,8 @@ int	my_key_handler(int keycode, void *param)
 		rotate_z_left(param);
 	else if (keycode == 113)
 		rotate_z_right(param);
+	else if (keycode == 114)
+		reset_view(window);
 	return (0);
 }
 
@@ -91,7 +97,9 @@ t_window	*create_window(int width, int height, char *map_path, int zoom)
 	maping(win->fd, win);
 	detect_map_dimensions(win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
+	draw_menu(win);
 	mlx_key_hook(win->win, my_key_handler, win);
+	mlx_hook(win->win, 17, 0, cleanup_and_exit,win);
 	mlx_loop(win->mlx);
 	free(win);
 	return (0);

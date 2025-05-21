@@ -22,37 +22,6 @@ void	put_pixel(t_window *win, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-t_projected	project_point(t_point p, t_window *win)
-{
-	double			rx;
-	double			ry;
-	double			rz;
-	double			tmp;
-	t_projected		proj;
-	double			px;
-	double			py;
-
-	rx = (double)p.x;
-	ry = (double)p.y;
-	rz = (double)p.z;
-	rz *= win->z_scale;
-//	printf("Z: %d -> rz: %f\n", p.z, rz);
-	tmp = ry * cos(win->rot_x) - rz * sin(win->rot_x);
-	rz = ry * sin(win->rot_x) + rz * cos(win->rot_x);
-	ry = tmp;
-	tmp = rx * cos(win->rot_y) + rz * sin(win->rot_y);
-	rz = -rx * sin(win->rot_y) + rz * cos(win->rot_y);
-	rx = tmp;
-	tmp = rx * cos(win->rot_z) - ry * sin(win->rot_z);
-	ry = rx * sin(win->rot_z) + ry * cos(win->rot_z);
-	rx = tmp;
-	px = (rx - ry) * cos(0.5236);
-	py = (rx + ry) * sin(0.5236) - rz;
-	proj.p_x = px * win->zoom + win->off_x;
-	proj.p_y = py * win->zoom + win->off_y;
-	return (proj);
-}
-
 static t_draw_data	
 draw_point(t_window *win, int x, int y, char *str)
 {

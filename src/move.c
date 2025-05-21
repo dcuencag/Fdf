@@ -24,6 +24,7 @@ void	move_up(void *param)
 		cleanup_and_exit(win);
 	maping(win->fd, win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
+	draw_menu(win);
 }
 
 void	move_down(void *param)
@@ -38,6 +39,7 @@ void	move_down(void *param)
 		cleanup_and_exit(win);
 	maping(win->fd, win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
+	draw_menu(win);
 }
 
 void	move_right(void *param)
@@ -52,6 +54,7 @@ void	move_right(void *param)
 		cleanup_and_exit(win);
 	maping(win->fd, win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
+	draw_menu(win);
 }
 
 void	move_left(void *param)
@@ -66,4 +69,5 @@ void	move_left(void *param)
 		cleanup_and_exit(win);
 	maping(win->fd, win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
+	draw_menu(win);
 }

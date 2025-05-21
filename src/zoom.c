@@ -24,6 +24,7 @@ void	zoom_plus(void *param)
 		cleanup_and_exit(window);
 	maping(window->fd, window);
 	mlx_put_image_to_window(window->mlx, window->win, window->img, 0, 0);
+	draw_menu(window);
 }
 
 void	zoom_less(void *param)
@@ -40,5 +41,6 @@ void	zoom_less(void *param)
 			cleanup_and_exit(window);
 		maping(window->fd, window);
 		mlx_put_image_to_window(window->mlx, window->win, window->img, 0, 0);
+		draw_menu(window);
 	}
 }
