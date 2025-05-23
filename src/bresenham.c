@@ -42,8 +42,8 @@ void	paint_line(t_window *win, t_line line, t_draw_data d)
 {
 	t_bres	b;
 
-	b.dx = abs_diff(line.x1, line.x0);
-	b.dy = abs_diff(line.y1, line.y0);
+	b.dx = absolute_difference(line.x1, line.x0);
+	b.dy = absolute_difference(line.y1, line.y0);
 	b.sx = 1;
 	if (line.x0 > line.x1)
 		b.sx = -1;
