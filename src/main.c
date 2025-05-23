@@ -13,7 +13,7 @@
 #include "../fdf.h"
 #include <unistd.h>
 
-static int	parse_args(int *width, int *height, int *zoom, char **av)
+static int	atoi_args(int *width, int *height, int *zoom, char **av)
 {
 	*width = ft_atoi(av[1]);
 	*height = ft_atoi(av[2]);
@@ -21,7 +21,7 @@ static int	parse_args(int *width, int *height, int *zoom, char **av)
 	return (0);
 }
 
-static void	init_window_state(t_window *win)
+static void	init_rotation_state(t_window *win)
 {
 	win->rot_x = 0.5236;
 	win->rot_y = 0.5236;
@@ -41,11 +41,11 @@ int	main(int ac, char **av)
 		ft_putstr_fd("Usage: ./fdf width height map_path zoom\n", 2);
 		return (1);
 	}
-	parse_args(&width, &height, &zoom, av);
+	atoi_args(&width, &height, &zoom, av);
 	win = create_window(width, height, av[3], zoom);
 	if (!win)
 		return (1);
-	init_window_state(win);
+	init_rotation_state(win);
 	detect_map_dimensions(win);
 	win->off_x = (win->width / 2) - (win->cols * win->zoom / 2);
 	win->off_y = (win->height / 2) - (win->rows * win->zoom / 2);

@@ -12,7 +12,7 @@
 
 #include "../fdf.h"
 
-void	render(t_window *win)
+void	refresh_display(t_window *win)
 {
 	mlx_destroy_image(win->mlx, win->img);
 	win->img = mlx_new_image(win->mlx, win->width, win->height);
@@ -41,5 +41,5 @@ void	reset_view(void *param)
 	center_model(win);
 	mlx_put_image_to_window(win->mlx, win->win, win->img, 0, 0);
 	draw_menu(win);
-	render(win);
+	refresh_display(win);
 }

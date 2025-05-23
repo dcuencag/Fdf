@@ -12,11 +12,11 @@
 
 #include "../fdf.h"
 
-static int	abs_diff(int a, int b)
+static int	absolute_difference(int value1, int value2)
 {
-	if (a > b)
-		return (a - b);
-	return (b - a);
+	if (value1 > value2)
+		return (value1 - value2);
+	return (value2 - value1);
 }
 
 static void	paint_line_loop(t_window *win, t_line line, t_bres b, t_draw_data d)
